@@ -74,6 +74,8 @@ struct KKSectionMetrics {
     } _delegateRespondsTo;
     
     KKGridViewIndexView *_indexView;
+    
+    CGSize _userCellPadding;
 }
 
 // Initialization
@@ -149,6 +151,7 @@ struct KKSectionMetrics {
 @synthesize cellPadding = _cellPadding;
 @synthesize cellSize = _cellSize;
 @synthesize numberOfColumns = _numberOfColumns;
+@synthesize adaptsPaddingWidth = _adaptsPaddingWidth;
 
 @dynamic numberOfSections;
 
@@ -273,8 +276,24 @@ struct KKSectionMetrics {
 - (void)setCellPadding:(CGSize)cellPadding
 {
     //    Call for a total recalculation in the case a change as large as these (cell size as well) occurs.
-    if (!CGSizeEqualToSize(_cellPadding, cellPadding)) {
+    if (!CGSizeEqualToSize(_userCellPadding, cellPadding)) {
         _cellPadding = cellPadding;
+        _userCellPadding = cellPadding;
+        
+        [self _layoutModelCells];
+        [self reloadData];
+    }
+}
+
+- (CGSize)cellPadding
+{
+    return _userCellPadding;
+}
+
+- (void)setAdaptsPaddingWidth:(BOOL)adaptsPaddingWidth
+{
+    if (adaptsPaddingWidth != _adaptsPaddingWidth) {
+        _adaptsPaddingWidth = adaptsPaddingWidth;
         
         [self _layoutModelCells];
         [self reloadData];
@@ -1233,7 +1252,12 @@ struct KKSectionMetrics {
     [self _reloadMetrics];
     
     NSUInteger oldColumns = _numberOfColumns;
-    _numberOfColumns = self.bounds.size.width / (_cellSize.width + _cellPadding.width);
+    
+    _numberOfColumns = (self.bounds.size.width - _userCellPadding.width) / (_cellSize.width + _userCellPadding.width);
+    
+    if (_adaptsPaddingWidth) {
+        _cellPadding.width = (self.bounds.size.width - _numberOfColumns * _cellSize.width) / (_numberOfColumns + 1);
+    }
     
     if (oldColumns != _numberOfColumns) {
         _markedForDisplay = YES;
@@ -1248,13 +1272,13 @@ struct KKSectionMetrics {
         CGFloat heightForSection = 0.f;
         
         struct KKSectionMetrics sectionMetrics = _metrics.sections[i];
-        _metrics.sections[i].rowHeight = (_cellSize.height + _cellPadding.height);
+        _metrics.sections[i].rowHeight = (_cellSize.height + _userCellPadding.height);
         
         heightForSection += sectionMetrics.headerHeight + sectionMetrics.footerHeight;
         
         NSUInteger numberOfRows = ceilf(sectionMetrics.itemCount / (float)_numberOfColumns);
         heightForSection += numberOfRows * _metrics.sections[i].rowHeight;
-        heightForSection += (numberOfRows? _cellPadding.height:0.f);
+        heightForSection += (numberOfRows? _userCellPadding.height:0.f);
         
         _metrics.sections[i].sectionHeight = heightForSection;
         newContentSize.height += heightForSection;

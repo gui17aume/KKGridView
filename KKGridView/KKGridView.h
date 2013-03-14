@@ -69,6 +69,7 @@ typedef enum {
 @property (nonatomic) BOOL allowsMultipleSelection;
 @property (nonatomic, strong) UIView *backgroundView;
 @property (nonatomic) CGSize cellPadding;
+@property (nonatomic) BOOL adaptsPaddingWidth;
 @property (nonatomic) CGSize cellSize;
 @property (nonatomic, strong) UIView *gridFooterView;
 @property (nonatomic, strong) UIView *gridHeaderView;
