@@ -649,9 +649,9 @@ struct KKSectionMetrics {
     NSArray *visiblePaths = [self visibleIndexPaths];
     NSUInteger index = 0;
     
-    void (^updateCellFrame)(id,id) = ^(KKGridViewCell *cell, KKIndexPath *indexPath) {
-        cell.frame = [self rectForCellAtIndexPath:indexPath]; 
-    };
+//    void (^updateCellFrame)(id,id) = ^(KKGridViewCell *cell, KKIndexPath *indexPath) {
+//        cell.frame = [self rectForCellAtIndexPath:indexPath]; 
+//    };
     
     for (KKIndexPath *indexPath in visiblePaths) {
         // Updates
@@ -911,9 +911,9 @@ struct KKSectionMetrics {
     point.y += (row * (_cellSize.height + _cellPadding.height));
     point.x += (column * (_cellSize.width + _cellPadding.width));
 
-    if (indexPath.section == 1) {
-        NSLog(@"%@", NSStringFromCGRect(CGRectIntegral((CGRect){point, _cellSize})));
-    }
+//    if (indexPath.section == 1) {
+//        NSLog(@"%@", NSStringFromCGRect(CGRectIntegral((CGRect){point, _cellSize})));
+//    }
     
     return CGRectIntegral((CGRect){point, _cellSize});
 }
@@ -968,7 +968,7 @@ struct KKSectionMetrics {
     
     for (KKIndexPath *keyPath in allVisibleIndexPaths) {
         KKGridViewCell *originalCell = [_visibleCells objectForKey:keyPath];
-        NSLog(@"%@", keyPath);
+        //NSLog(@"%@", keyPath);
         KKIndexPath *originalIndexPath = [keyPath copy];
         
         NSUInteger amountForPath = amount;
