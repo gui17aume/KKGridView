@@ -992,7 +992,7 @@ struct KKSectionMetrics {
         //NSLog(@"%@", keyPath);
         KKIndexPath *originalIndexPath = [keyPath copy];
         
-        NSUInteger amountForPath = amount;
+        //NSUInteger amountForPath = amount;
         
         if (keyPath.section == fromPath.section) {
             NSComparisonResult pathComparison = [fromPath compare:keyPath];
@@ -1009,12 +1009,13 @@ struct KKSectionMetrics {
                     originalCell.hidden = YES;
                 }];
             }
-            if (!indexPathIsLessOrEqual || !lastPathIsGreatorOrEqual) {
-                amountForPath = 0;
-            }
-        } else if (keyPath.section > toPath.section) {
-            amountForPath = 0;
+            //if (!indexPathIsLessOrEqual || !lastPathIsGreatorOrEqual) {
+            //    amountForPath = 0;
+            //}
         }
+        //else if (keyPath.section > toPath.section) {
+        //    amountForPath = 0;
+        //}
         
         keyPath.index+= amount;
         
