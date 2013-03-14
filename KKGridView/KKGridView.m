@@ -755,6 +755,8 @@ struct KKSectionMetrics {
         height += _metrics.sections[index].sectionHeight;
     }
     
+    height += _metrics.sections[section].headerHeight;
+    
     for (NSUInteger index = 0; index < row; index++) {
         height += _metrics.sections[section].rowHeight;
     }
