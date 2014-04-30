@@ -104,8 +104,8 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%@ {Index: %i; Section: %i}", 
-            NSStringFromClass([self class]), _index, _section];
+    return [NSString stringWithFormat:@"%@ {Index: %lu; Section: %i}", 
+            NSStringFromClass([self class]), (unsigned long)_index, _section];
 }
 
 #pragma mark - KKIndexPath to NSIndexPath
